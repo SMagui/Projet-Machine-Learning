@@ -1,0 +1,79 @@
+#Importing the libraries
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+from sklearn.metrics import confusion_matrix
+# Importing the dataset
+dataset = pd.read_csv('../user+data.csv')
+
+dataset.head()
+nb_classe_1 =(dataset["Purchased"]==1).sum()
+nb_classe_0= (dataset["Purchased"]== 0).sum()
+print(nb_classe_0 , nb_classe_1)
+from sklearn.utils import resample
+df_maj= dataset[dataset["Purchased"]==0]
+df_min= dataset[dataset["Purchased"]==1]
+
+df_min_aug=resample(df_min , replace=True , n_samples= nb_classe_0, random_state=42 )
+df_min_aug
+dataset=pd.concat([df_maj, df_min_aug])
+dataset
+nb_classe_1 =(dataset["Purchased"]==1).sum()
+nb_classe_0= (dataset["Purchased"]== 0).sum()
+print(nb_classe_0 , nb_classe_1)
+
+#Training and Testing Data (divide the data into two part)
+from sklearn.model_selection import train_test_split
+
+X=dataset.iloc[ : , [2 ,3]].values
+y=dataset.iloc[ : , 4].values
+X[:5]
+
+
+X_train, X_test, y_train , y_test= train_test_split(X,y, test_size=0.2,random_state=41)
+from sklearn.preprocessing import StandardScaler
+sc_X= StandardScaler()
+X_train= sc_X.fit_transform(X_train)
+X_test=sc_X.fit_transform(X_test)
+X_test[:5]
+ écrire le code pour ajuster un modèle de régression logistique à l'aide des données d'entraînement ?
+from sklearn.linear_model import LogisticRegression
+
+
+classifier=LogisticRegression()
+classifier.fit(X_train, y_train)
+y_pred_proba=classifier.predict_proba(X_test)
+y_pred_proba[:5]
+y_pred=classifier.predict(X_test)
+y_pred[:5]
+import pandas as pd 
+
+df=pd.DataFrame({"y_pred": y_pred , 'y_test' : y_test} )
+df['Probabilité_1'] = y_pred_proba[:, 1]
+df['Probabilité_0'] = y_pred_proba[:, 0]
+
+df
+cm=confusion_matrix(y_pred,y_test)
+precision= cm[0,0]/(cm[0,0]+cm[0,1])
+recall= cm[0,0]/(cm[0,0]+cm[1,0])
+F=2*(precision*recall)/(precision+recall)
+F
+from sklearn.metrics import roc_auc_score, roc_curve
+roc_auc = roc_auc_score(y_test, y_pred_proba[:,1])
+roc_auc
+fpr, tpr, thresholds = roc_curve(y_test, y_pred_proba[:,1])
+ 
+plt.figure(figsize=(8, 6))
+plt.plot(fpr, tpr, label=f'ROC curve (AUC = {roc_auc:.2f})', color='blue')
+plt.plot([0, 1], [0, 1], 'k--', label='AUC = 0.5')
+plt.xlabel('Taux de faux positifs (FPR)')
+plt.ylabel('Taux de vrais positifs (TPR)')
+plt.title('Courbe ROC - Régression Logistique')
+plt.legend(loc='lower right')
+plt.grid(True)
+plt.show()
+
+
+
+
+

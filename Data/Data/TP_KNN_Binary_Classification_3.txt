@@ -1,0 +1,116 @@
+#Importing the libraries
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+from sklearn.metrics import confusion_matrix
+# Importing the dataset
+dataset = pd.read_csv(r'C:\Users\smagu\Downloads\Projet Machine Learning\Data&script\Data\user+data.csv')
+print(dataset.head())
+###  extraire les valeurs des colonnes 2 et 3 du DataFrame dataset et les stocker dans X, et également extraire les valeurs de la colonne 4 et les stocker dans y ?"
+X=dataset.iloc[:,2:4].values
+y=dataset.iloc[:, 4 ].values
+print(X[:5])
+print(y[:5])
+### split les données en test train
+#Training and Testing Data (divide the data into two part) , random_stat=0
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train , y_test = train_test_split(X,y,test_size=0.2)
+
+len(X_train)
+
+### Effectuer la mise à l'échelle des variables indépendantes X_train et X_test en utilisant le StandardScaler de scikit-learn ? Je souhaite obtenir les données mises à l'échelle dans les variables X_train et X_test respectivement."
+
+
+[[TN  FP] 
+
+ [FN  TP]]
+
+from sklearn.preprocessing import StandardScaler
+sc_X= StandardScaler()
+
+X_train_std= sc_X.fit_transform(X_train)
+X_test_std= sc_X.fit_transform(X_test)
+print(X_train_std[:5])
+X_train[:5]
+### l'algorithme des k-plus proches voisins (KNN) pour construire un modèle de classification. Pouvez-vous m'aider à mettre en place le code en utilisant la classe KNeighborsClassifier de scikit-learn ? Je souhaite spécifier les paramètres suivants : le nombre de voisins à considérer (5), la distance de Minkowski. Ensuite, je souhaite entraîner le modèle en utilisant les données d'entraînement X_train et les étiquettes correspondantes y_train."
+from sklearn.neighbors import KNeighborsClassifier
+classifier=KNeighborsClassifier( n_neighbors= 5 , metric='minkowski')
+
+
+classifier.fit(X_train_std,y_train)
+y_pred=classifier.predict(X_test_std)
+y_pred
+cm =confusion_matrix(y_pred,y_test)
+cm
+precision= cm[0,0]/(cm[0,0]+cm[0,1])
+recall= cm[0,0]/(cm[0,0]+cm[1,0])
+
+precision
+recall
+F=2*(precision*recall)/(precision+recall)
+F
+### avec Gender
+recall
+dataset['Gender'].replace({'Male' : 1 , 'Female' : 0},inplace=True )
+dataset
+X=dataset.iloc[:,1:4].values
+y=dataset.iloc[:, 4 ].values
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train , y_test = train_test_split(X,y,test_size=0.2)
+
+len(X_train)
+sc_X= StandardScaler()
+X_train_std= sc_X.fit_transform(X_train)
+X_test_std= sc_X.fit_transform(X_test)
+
+
+
+from sklearn.neighbors import KNeighborsClassifier
+
+classifier=KNeighborsClassifier( n_neighbors= 5 , metric='minkowski')
+
+
+
+classifier.fit(X_train_std,y_train)
+y_pred=classifier.predict(X_test_std)
+
+cm=confusion_matrix(y_pred,y_test)
+cm
+precision= cm[0,0]/(cm[0,0]+cm[0,1])
+recall= cm[0,0]/(cm[0,0]+cm[1,0])
+
+F=2*(precision*recall)/(precision+recall)
+F
+f1_score=[]
+for k in range( 1 , 10):
+    classifier=KNeighborsClassifier(n_neighbors=k, metric='minkowski')
+    classifier.fit(X_train_std , y_train)
+    y_pred=classifier.predict(X_test_std)
+    cm=confusion_matrix(y_pred,y_test)
+    precision= cm[0,0]/(cm[0,0]+cm[0,1])
+    recall= cm[0,0]/(cm[0,0]+cm[1,0])
+    F=2*(precision*recall)/(precision+recall)
+    f1_score.append(F)
+
+
+    
+f1_score
+
+plt.plot(range(1,10), f1_score)
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.model_selection import GridSearchCV
+
+knn = KNeighborsClassifier()
+param_grid = {'n_neighbors': [3, 5, 7, 9], 'weights': ['distance'], 'p': [1, 2] }
+grid_search = GridSearchCV(knn, param_grid, cv=5, scoring='accuracy', verbose=1)
+grid_search.fit(X_train_std, y_train)
+
+print("Meilleurs paramètres :", grid_search.best_params_)
+print("Meilleure précision :", grid_search.best_score_)
+ 
+
+
+
+###LogisticRegression
+
+

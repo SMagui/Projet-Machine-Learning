@@ -1,0 +1,150 @@
+%matplotlib inline
+from copy import deepcopy
+import numpy as np
+import pandas as pd
+from matplotlib import pyplot as plt
+plt.rcParams['figure.figsize'] = (16, 9)
+plt.style.use('ggplot')
+# Importing the dataset
+import pandas as pd
+
+# Import du dataset
+data = pd.read_csv(r'C:\Users\smagu\Downloads\Projet Machine Learning\Data&script\Data\mallCustomerData.txt', sep=',')
+
+# Afficher les 5 premières lignes
+data.head()
+
+À partir du DataFrame data, affichez une carte de chaleur (heatmap) représentant les corrélations entre les variables numériques, en excluant les colonnes CustomerID et Gender.
+matrix_corr=data.drop(['CustomerID','Gender'],axis=1).corr()
+matrix_corr
+import sys
+print(sys.executable)
+
+
+import seaborn as sns
+Tracez un nuage de points (scatter plot) montrant la relation entre l’âge des clients (Age) et leur score de dépense (Spending Score (1-100)).
+#Age	Annual Income (k$)	Spending Score (1-100
+plt.scatter(data.Age , data["Spending Score (1-100)"])
+
+# Création d'une nouvelle colonne AgeGroupe par tranches de 10 ans pour les couleurs
+data['AgeGroupe'] = pd.cut(data['Age'], bins = range(10, 71, 10), right=False)
+# Création du scatter plot
+plt.figure(figsize=(8, 6))
+sns.scatterplot(data=data, x='Age', y='Spending Score (1-100)', hue='AgeGroupe', palette='Set1')
+# Titre et axes
+plt.title('Relation entre l\'âge et le score de dépense')
+plt.xlabel('Âge')
+plt.ylabel('Spending Score (1-100)')
+plt.legend(title='Age')
+plt.grid(True)
+plt.show()
+
+
+
+data.columns
+Affichez un nuage de points représentant l’âge des clients (Age) en abscisse et leur revenu annuel (Annual Income (k$)) en ordonnée à l’aide de matplotlib.
+
+# Création d'une nouvelle colonne AgeGroupe par tranches de 10 ans pour les couleurs
+data['AgeGroupe'] = pd.cut(data['Age'], bins = range(10, 71, 10), right=False)
+# Création du scatter plot
+plt.figure(figsize=(8, 6))
+sns.scatterplot(data=data, x='Age', y='Annual Income (k$)', hue='AgeGroupe', palette='Set1')
+# Titre et axes
+plt.title('Relation entre l\'âge et le score de dépense')
+plt.xlabel('Âge')
+plt.ylabel('Spending Score (1-100)')
+plt.legend(title='Age')
+plt.grid(True)
+plt.show()
+
+À l’aide de matplotlib, tracez un nuage de points montrant la relation entre le score de dépense (Spending Score (1-100)) et le revenu annuel (Annual Income (k$)) des clients.
+plt.scatter(data["Spending Score (1-100)"] ,data['Annual Income (k$)']  )
+Extrayez les colonnes Spending Score (1-100) et Annual Income (k$) du DataFrame data sous forme de tableaux NumPy et stockez-les dans les variables x1 et x2.
+x1=data["Spending Score (1-100)"].values
+x2=data['Annual Income (k$)'].values
+x1[:5]
+Regroupez les variables x1 et x2 en une seule matrice NumPy X contenant des couples de valeurs (spending score, annual income). 
+X=np.column_stack((x1,x2))
+X
+Appliquez l’algorithme des K-means sur les données X avec un nombre de clusters fixé à 8, puis entraînez le modèle.
+from sklearn.cluster import KMeans
+kmeans=KMeans(5)
+kmeans.fit(X)
+Prédisez les étiquettes de cluster pour chaque point de données de X à l’aide du modèle KMeans entraîné, et stockez-les dans la variable labels.
+
+labels=kmeans.predict(X)
+labels[15:]
+kmeans.cluster_centers_[:,0]
+Affichez un nuage de points des données X, en coloriant les points selon leur cluster (labels). Ensuite, ajoutez les centroïdes des clusters au graphique en les représentant par des étoiles de grande taille.
+plt.scatter(X[:,0],X[:,1],c=labels)
+plt.scatter(kmeans.cluster_centers_[:,0] ,kmeans.cluster_centers_[:,1],marker='*')
+Écrivez une boucle pour calculer la somme des distances intra-cluster (WCSS) pour des valeurs de k allant de 1 à 10. Stockez ces valeurs dans une liste wcss_list.
+wcss=[]
+for k in range(1,11):
+    kmeans=KMeans(k)
+    kmeans.fit(X)
+    wcss.append(kmeans.inertia_)
+plt.plot(range(1,11),wcss)
+from mpl_toolkits.mplot3d import Axes3D
+from sklearn.cluster import KMeans
+from sklearn.datasets import make_blobs
+créez un jeu de données synthétique composé de 400 points répartis en 4 groupes distincts dans un espace à 3 dimensions.
+
+Importez les bibliothèques nécessaires (numpy, matplotlib, sklearn).
+Configurez la taille de la figure matplotlib à (16, 9).
+Utilisez la fonction make_blobs pour générer ces données.
+X, y = make_blobs(n_samples=400, centers=4, n_features=3)
+X[:5]
+fig=plt.figure()
+ax=Axes3D(fig)
+ax.scatter(X[:,0],X[:,1],X[:,2])
+Créer une figure matplotlib,
+Ajouter un axe 3D à cette figure,
+Afficher un nuage de points 3D (scatter plot) des données X3D.
+
+Utilisez Axes3D de mpl_toolkits.mplot3d pour la visualisation.
+
+
+ effectuez un clustering avec l’algorithme KMeans en utilisant 10 clusters.
+
+ Initialisez le modèle KMeans avec 10 clusters,
+
+Entraînez-le sur les données X3D,
+
+Prédisez les labels (assignation des clusters) pour chaque point,
+
+Récupérez les centres des clusters (centroids).
+
+kmeans=KMeans(10)
+kmeans.fit(X)
+labels=kmeans.predict(X)
+centroid=kmeans.cluster_centers_
+centroid
+
+Créez une figure matplotlib,
+
+Ajoutez un axe 3D,
+
+Affichez un nuage de points 3D coloré selon les labels des clusters,
+
+Superposez les centres des clusters sous forme d’étoiles (*), plus grandes et de couleur sombre.
+
+fig=plt.figure()
+ax=Axes3D(fig)
+ax.scatter(X[:,0],X[:,1],X[:,2],c=labels)
+ax.scatter(centroid[:,0] ,centroid[:,1],centroid[:,2],marker='*', s=300, c='darkred')
+wcss=[]
+for k in range(1,11):
+    kmeans=KMeans(k)
+    kmeans.fit(X)
+    wcss.append(kmeans.inertia_)
+plt.plot(range(1,11), wcss)
+kmeans=KMeans(4)
+kmeans.fit(X)
+labels=kmeans.predict(X)
+centroid=kmeans.cluster_centers_
+centroid
+fig=plt.figure()
+ax=Axes3D(fig)
+ax.scatter(X[:,0],X[:,1],X[:,2],c=labels)
+ax.scatter(centroid[:,0] ,centroid[:,1],centroid[:,2],marker='*', s=300, c='darkred')

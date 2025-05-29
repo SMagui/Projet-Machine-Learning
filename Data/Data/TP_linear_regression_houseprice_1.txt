@@ -1,0 +1,51 @@
+import pandas as pd
+import numpy  as np
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LinearRegression
+
+!pwd
+df = pd.read_csv(r"C:\Users\smagu\Downloads\Projet Machine Learning\Data&script\Data\homeprices.csv")
+df
+### Le graphique qui représente les données de surface (en pieds carrés) sur l'axe x et les prix (en dollars américains) sur l'axe y. Les points du graphique 
+plt.scatter(df['Area'], df['Price'], color='blue', marker='o')
+plt.title("Prix en fonction de la surface")
+plt.xlabel("Surface (pieds carrés)")
+plt.ylabel("Prix (USD)")
+plt.grid(True)
+plt.show()
+### écrire un code qui utilise la régression linéaire pour ajuster un modèle aux données du DataFrame df ? Le code devrait importer la classe LinearRegression du module sklearn.linear_model et créer une instance de LinearRegression appelée reg. En utilisant la méthode fit, le modèle devrait être ajusté en utilisant les valeurs de la colonne "Area" du DataFrame df comme variables indépendantes (X) et les valeurs de la colonne "Price" comme variable dépendante (y). Veuillez fournir le code complet.
+from sklearn.linear_model import LinearRegression
+reg = LinearRegression()
+X = df[['Area']]
+y = df['Price']
+reg.fit(X, y)
+
+#  fit(données brutes , labels)
+
+### écrire un code qui utilise le modèle de régression linéaire déjà ajusté sur les données du DataFrame df pour prédire le prix correspondant à une surface de 3300 pieds carrés ? Veuillez utiliser la méthode predict de l'instance reg pour effectuer la prédiction et afficher le résultat.
+prediction = reg.predict([[3300]])
+print(f"Prix prédit pour 3300 pieds carrés : ${prediction[0]:,.2f}")
+
+### écrire un code pour accéder à l'intercept du modèle de régression linéaire déjà ajusté sur les données du DataFrame df ? Veuillez utiliser l'attribut intercept_ de l'instance reg pour obtenir cette valeur et l'afficher.
+print(f"Intercept (b) : {reg.intercept_}")
+y = m * x + b 
+###  écrire un code pour accéder aux coefficients du modèle de régression linéaire déjà ajusté sur les données du DataFrame df ? Veuillez utiliser l'attribut coef_ de l'instance reg pour obtenir ces valeurs et les afficher.
+print(f"Coefficient (m) : {reg.coef_[0]}")
+
+
+
+### ecrire un code qui génère un ensemble de points (x et y) pour représenter la ligne de régression linéaire à partir des valeurs minimales et maximales de la colonne "Area" du DataFrame df ? Veuillez utiliser la fonction np.linspace pour créer une séquence de 100 valeurs équidistantes entre la valeur minimale et maximale de "Area". Utilisez ensuite la méthode predict de l'instance reg pour prédire les valeurs correspondantes de la colonne "Price".
+x_range = np.linspace(df['Area'].min(), df['Area'].max(), 100).reshape(-1, 1)
+y_predicted = reg.predict(x_range)
+###  tracer la ligne de régression  en utilisant plt.plot() avec la couleur .
+plt.scatter(df['Area'], df['Price'], color='blue', label='Données réelles')
+plt.plot(x_range, y_predicted, color='red', label='Ligne de régression')
+plt.xlabel("Surface (pieds carrés)")
+plt.ylabel("Prix (USD)")
+plt.title("Régression linéaire : Surface vs Prix")
+plt.legend()
+plt.grid(True)
+plt.show()
+
+
+
