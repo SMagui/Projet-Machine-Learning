@@ -118,9 +118,11 @@ Classification	Accuracy, F1-score, Recall, Matrice de confusion
 Régression	RMSE, MAE, R²
 Clustering	Inertie (WCSS), silhouette score
 
+
 Ces métriques permettent de juger les modèles non seulement en termes de performance brute mais aussi d'adéquation à la tâche.
 
-✅ Bonnes pratiques
+✅ Structure du projet
+
 📁 Dossiers bien séparés entre données, scripts et notebooks
 
 🧼 Données nettoyées et mises à l’échelle si nécessaire
