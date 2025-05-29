@@ -1,131 +1,144 @@
-# 🤖 Projet Machine Learning — Classification & Régression
+# 📊 Projet Machine Learning
 
-Ce projet a pour objectif de développer et d’évaluer des modèles de Machine Learning pour résoudre des problèmes concrets à partir de données réelles. Il couvre l'ensemble du pipeline : de la préparation des données à la prédiction, en passant par la modélisation et l'évaluation.
+Ce projet vise à mettre en œuvre des algorithmes de **Machine Learning supervisé et non supervisé** sur des jeux de données réels. Il permet de traiter l'ensemble du cycle de vie d'un projet ML : de l'importation et la préparation des données, jusqu’à l’évaluation et l’interprétation des modèles.
+
+Nous utilisons des bibliothèques standard de l’écosystème Python : `pandas`, `numpy`, `scikit-learn`, `matplotlib`, et `seaborn`.
 
 ---
 
-## 📁 Structure du projet
+## 🗂️ Structure du projet
 
-```
 Projet-Machine-Learning/
-├── Data/                         # Jeux de données (iris.csv, housing.csv, cereals.csv)
-├── Notebooks/                   # Jupyter notebooks de chaque analyse
-├── Scripts/                     # Scripts Python (prétraitement, modèles, évaluation)
-├── requirements.txt             # Bibliothèques nécessaires
-├── README.md                    # Présentation du projet
-└── .gitignore                   # Fichiers à ne pas pousser
-```
+├── Data/ # Jeux de données (iris.csv, housing.csv, cereals.csv, etc.)
+├── Notebooks/ # Jupyter Notebooks d’analyse et d’expérimentation
+├── Scripts/ # Scripts Python modulaires (prétraitement, modèles, etc.)
+├── requirements.txt # Dépendances du projet
+├── README.md # Ce fichier de présentation
+└── .gitignore # Fichiers à exclure du contrôle de version
+
+yaml
+Copier
+Modifier
 
 ---
 
-## 🎯 Objectifs
+## 🎯 Objectifs pédagogiques
 
-- Explorer, nettoyer et transformer différents jeux de données
-- Appliquer des modèles de classification et de régression
-- Comparer les performances (accuracy, RMSE, etc.)
-- Automatiser des pipelines de Machine Learning
-- Visualiser les résultats et interpréter les modèles
+Ce projet a été conçu pour atteindre les objectifs suivants :
+
+- Explorer, nettoyer et transformer des données hétérogènes
+- Appliquer des modèles de **classification**, **régression** et **clustering**
+- Comparer les performances des modèles avec des **métriques adaptées**
+- Visualiser et interpréter les résultats
+- Structurer un projet de ML de manière modulaire et reproductible
 
 ---
 
 ## 📊 Jeux de données utilisés
 
-- `iris.csv` : classification d'espèces de fleurs
-- `housing.csv` : régression des prix de logements
-- `cereals.csv` : analyse nutritionnelle de céréales
+| Nom du fichier         | Objectif                                 | Type d’apprentissage |
+|------------------------|------------------------------------------|-----------------------|
+| `iris.csv`             | Classification des espèces de fleurs     | Classification        |
+| `housing.csv`          | Prédiction du prix des maisons           | Régression            |
+| `cereals.csv`          | Analyse nutritionnelle et clustering     | Clustering            |
+| `user+data.csv`        | Classification binaire d’utilisateurs    | Classification        |
+| `mallCustomerData.txt` | Segmentation de clients via K-means      | Clustering            |
+
+Chaque fichier est documenté dans les scripts et notebooks pour faciliter la reproductibilité.
 
 ---
 
-## 🔧 Technologies et outils
+## 🧠 Modèles implémentés
 
-- **Python** 3.x
-- **Pandas**, **NumPy** — Manipulation des données
-- **Scikit-learn** — Modélisation Machine Learning
-- **Matplotlib**, **Seaborn** — Visualisation
-- **Jupyter Notebook** — Exploration et documentation
-- **.venv** (non versionné) — Environnement virtuel
+### 🌼 Classification
+
+- **K-Nearest Neighbors (KNN)** : classification de clients selon leurs caractéristiques.
+- **Régression Logistique**, **SVM**, **Arbre de décision** : sur le jeu `iris.csv`.
+- **Évaluation** : Matrice de confusion, Précision, Rappel, F1-score.
+
+Chaque modèle est testé avec différents hyperparamètres, et parfois optimisé via `GridSearchCV`.
+
+### 🏠 Régression
+
+- **Régression linéaire simple** : prédiction du prix d'une maison en fonction de sa surface.
+- **Modèles avancés** : `RandomForestRegressor`, `GradientBoostingRegressor`.
+- **Évaluation** : RMSE, MAE, R² pour comparer la qualité des prédictions.
+
+### 🥣 Clustering (non supervisé)
+
+- **K-Means clustering** : segmentation de clients selon leurs revenus et scores d’achat.
+- **Méthode du coude** : choix du nombre optimal de clusters.
+- **Visualisation 2D et 3D** pour interpréter la structure des données.
 
 ---
 
-## ⚙️ Installation & exécution
+## 🔧 Technologies utilisées
 
-1. Cloner le dépôt :
+| Technologie       | Rôle                             |
+|-------------------|----------------------------------|
+| Python 3.x        | Langage principal                |
+| pandas / numpy    | Traitement et manipulation des données |
+| matplotlib / seaborn | Visualisation graphique      |
+| scikit-learn      | Modèles de Machine Learning      |
+| Jupyter Notebook  | Environnement de test et doc     |
+| Git / GitHub      | Versionnage et collaboration     |
+
+---
+
+## ⚙️ Installation et exécution
+
+1. **Cloner le dépôt** :
 ```bash
 git clone https://github.com/SMagui/Projet-Machine-Learning.git
 cd Projet-Machine-Learning
-```
+Créer un environnement virtuel :
 
-2. Créer et activer un environnement virtuel :
-```bash
+bash
+Copier
+Modifier
 python -m venv .venv
-.venv\Scripts\activate         # Windows
-# OU
-source .venv/bin/activate      # Mac/Linux
-```
+.venv\Scripts\activate     # Sous Windows
+# ou
+source .venv/bin/activate  # Sous macOS / Linux
+Installer les dépendances :
 
-3. Installer les dépendances :
-```bash
+bash
+Copier
+Modifier
 pip install -r requirements.txt
-```
+Lancer les notebooks :
 
-4. Lancer les notebooks :
-```bash
+bash
+Copier
+Modifier
 jupyter notebook
-```
+🧪 Évaluation des modèles
+Type de tâche	Métriques d’évaluation
+Classification	Accuracy, F1-score, Recall, Matrice de confusion
+Régression	RMSE, MAE, R²
+Clustering	Inertie (WCSS), silhouette score
 
----
+Ces métriques permettent de juger les modèles non seulement en termes de performance brute mais aussi d'adéquation à la tâche.
 
-## 📈 Modèles implémentés
+✅ Bonnes pratiques
+📁 Dossiers bien séparés entre données, scripts et notebooks
 
-### 🌼 Classification — *Iris Dataset*
+🧼 Données nettoyées et mises à l’échelle si nécessaire
 
-- K-Nearest Neighbors (KNN)
-- Régression Logistique
-- Arbre de Décision
-- SVM
+🔁 Pipelines reproductibles via requirements.txt et environnement virtuel .venv
 
-### 🏠 Régression — *Housing Dataset*
+📋 Code commenté et organisé
 
-- Régression Linéaire
-- Random Forest Regressor
-- Gradient Boosting
-- Evaluation : RMSE, R²
+🔒 .gitignore configuré pour exclure les données sensibles et l’environnement virtuel
 
-### 🥣 Analyse — *Cereals Dataset*
+👤 Auteur
+Projet réalisé par SMagui
+🔗 Profil GitHub
 
-- Nettoyage et visualisation
-- Clustering (KMeans)
-- PCA pour réduction de dimension
+📝 Remarques
+Tous les jeux de données sont disponibles dans le dossier Data/.
 
----
+Le projet est évolutif et prêt à intégrer d’autres modèles (ex: PCA, réseaux de neurones).
 
-## 🧪 Évaluation des modèles
-
-- **Classification** : accuracy, confusion matrix, precision, recall, F1
-- **Régression** : RMSE, MAE, R²
-- **Clustering** : silhouette score, méthode du coude
-
----
-
-## 🧠 Compétences démontrées
-
-- Préparation et traitement de données
-- Choix de modèles adaptés
-- Evaluation comparative de modèles
-- Visualisation et storytelling avec Python
-- Utilisation propre de Git et structuration de projet
-
----
-
-## 👤 Auteur
-
-Projet réalisé par **SMagui**  
-🔗 [Mon profil GitHub](https://github.com/SMagui)
-
----
-
-## 📌 Remarques
-
-- Le dossier `.venv` est volontairement ignoré via `.gitignore`
-- Le fichier `requirements.txt` permet de reproduire l’environnement
+Pour toute contribution, merci de créer une branche ou une Pull Request.
 
