@@ -133,9 +133,6 @@ Ces métriques permettent de juger les modèles non seulement en termes de perfo
 
 🔒 .gitignore configuré pour exclure les données sensibles et l’environnement virtuel
 
-👤 Auteur
-Projet réalisé par SMagui
-🔗 Profil GitHub
 
 📝 Remarques
 Tous les jeux de données sont disponibles dans le dossier Data/.
